@@ -1,23 +1,22 @@
 "use client"
 import React, { memo, useEffect, useMemo } from 'react'
-import { motion, useScroll, useTransform, Variants } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { ChevronRight, Sparkles } from "lucide-react"
 import Navbar from "@/components/Landing/Navbar"
 import { badgeVariants, containerVariants, itemVariants, textVariants } from '@/lib/variants'
 
-// Animation variants for better performance
+
 
 
 const HeroSection = memo(() => {
   const { scrollY } = useScroll()
-  
-  // Parallax transformations
+
   const backgroundY = useTransform(scrollY, [0, 500], [0, -150])
   const patternY = useTransform(scrollY, [0, 500], [0, -100])
   const contentY = useTransform(scrollY, [0, 500], [0, 50])
   
-  // Smooth scrolling setup
+
   useEffect(() => {
     const handleSmoothScroll = () => {
       document.documentElement.style.scrollBehavior = 'smooth'
@@ -30,7 +29,7 @@ const HeroSection = memo(() => {
     }
   }, [])
   
-  // Memoized background styles for performance
+
   const backgroundStyle = useMemo(() => ({
     backgroundImage: `url('/background.png')`,
     backgroundSize: 'cover',
@@ -49,7 +48,6 @@ const HeroSection = memo(() => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Background layers with parallax */}
       <motion.div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
@@ -78,7 +76,6 @@ const HeroSection = memo(() => {
           initial="hidden"
           animate="visible"
         >
-          {/* Badge with animation */}
           <motion.div 
             className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 mb-12 backdrop-blur-sm"
             variants={badgeVariants}
@@ -105,7 +102,6 @@ const HeroSection = memo(() => {
             <span className="text-white/80 text-sm font-medium">Your AI lab buddy for every coding adventure</span>
           </motion.div>
 
-          {/* Main Heading with staggered animation */}
           <motion.h1 
             className="text-5xl md:text-7xl font-bold text-white mb-6 max-w-5xl leading-tight font-navbar"
             variants={itemVariants}
@@ -130,7 +126,7 @@ const HeroSection = memo(() => {
             </span>
           </motion.h1>
 
-          {/* Description with fade-in animation */}
+      
           <motion.p 
             className="text-white/70 text-xl md:text-2xl mb-12 max-w-2xl leading-relaxed"
             variants={itemVariants}
@@ -138,7 +134,6 @@ const HeroSection = memo(() => {
             Chat, automate, and analyze — 2alabs brings AI chat, automation and much more
           </motion.p>
           
-          {/* Action buttons (uncommented and animated) */}
           <motion.div 
             className="flex items-center space-x-4"
             variants={itemVariants}
@@ -184,7 +179,6 @@ const HeroSection = memo(() => {
   )
 })
 
-// Add display name for debugging
 HeroSection.displayName = 'HeroSection'
 
 export default HeroSection

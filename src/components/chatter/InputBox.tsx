@@ -84,7 +84,7 @@ export default function InputBox({ onSendMessage, hasMessages }: InputBoxProps) 
                             className={`w-full bg-transparent resize-none text-base py-2 px-1 outline-none border-none disabled:opacity-50 transition-colors ${
                               "text-slate-800 dark:text-gray-200 placeholder:text-slate-500 dark:placeholder:text-gray-400"
                             }`}
-                            onKeyDown={(event: any) => {
+                            onKeyDown={(event: React.KeyboardEvent<HTMLTextAreaElement>) => {
                               if (event.key === "Enter" && !event.shiftKey && !isSubmitting) {
                                 event.preventDefault()
                                 form.handleSubmit(onSubmit)()
