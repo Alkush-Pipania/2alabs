@@ -1,11 +1,13 @@
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/chatter/sidebar/app-sidebar"
+"use client";
 
-export default async function ChatLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "./app-sidebar";
+
+interface SidebarLayoutProps {
+  children: React.ReactNode;
+}
+
+export function SidebarLayout({ children }: SidebarLayoutProps) {
   return (
     <SidebarProvider>
       <div className="h-screen w-full bg-white dark:bg-[#191A1A] dark:text-white flex">
@@ -15,5 +17,5 @@ export default async function ChatLayout({
         </main>
       </div>
     </SidebarProvider>
-  )
+  );
 }

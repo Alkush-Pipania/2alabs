@@ -5,7 +5,7 @@ import React from 'react'
 const HomePageLayout = async({children} : {children : React.ReactNode}) => {
 
   return (
-    <main>
+    <main className='bg-black'>
       {children}
     </main>
   )
