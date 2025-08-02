@@ -33,13 +33,13 @@ export async function signInUser(email: string, password: string) {
     password,
     callbackURL: "/dashboard"
   }, {
-    onRequest: (ctx) => {
+    onRequest: () => {
       //show loading
     },
-    onSuccess: (ctx) => {
+    onSuccess: () => {
       //redirect to the dashboard or sign in page
     },
-    onError: (ctx) => {
+    onError: () => {
       // display the error message
       // alert(ctx.error.message);
     },
@@ -53,13 +53,13 @@ export async function signInGithub(){
     provider: "github",
     callbackURL: "/dashboard"
   }, {
-    onRequest: (ctx) => {
+    onRequest: () => {
       //show loading
     },
-    onSuccess: (ctx) => {
+    onSuccess: () => {
       //redirect to the dashboard or sign in page
     },
-    onError: (ctx) => {
+    onError: () => {
       // display the error message
       // alert(ctx.error.message);
     },
@@ -73,13 +73,13 @@ export async function signInGoogle(){
    provider: "google",
    callbackURL: "/dashboard"
  }, {
-   onRequest: (ctx) => {
+   onRequest: () => {
      //show loading
    },
-   onSuccess: (ctx) => {
+   onSuccess: () => {
      //redirect to the dashboard or sign in page
    },
-   onError: (ctx) => {
+   onError: () => {
      // display the error message
     //  alert(ctx.error.message);
    },
