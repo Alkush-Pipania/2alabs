@@ -116,13 +116,13 @@ export default function Home() {
                     {/* Heading */}
                     <div className="space-y-1">
                       <h1 className="text-2xl sm:text-3xl font-medium text-slate-12 whitespace-pre-wrap text-pretty">
-                        AI That Connects People
+                        AI Meeting CoPilot
                       </h1>
                       <div className="text-slate-10 [&>p]:tracking-tight text-pretty">
                         <p>
-                          Experience the future of human connection with our multi-agent AI architecture. Our
-                          intelligent system helps you meet like-minded people through seamless video calling, powered
-                          by advanced AI that understands your preferences and facilitates meaningful conversations.
+                        Join every meeting with team of AI experts. No more pre-meeting stress, in-meeting anxiety or post-meeting regrets.
+                        Drop all your docs, ideas & notes into JarWiz—get in-meeting instant answers, citations, and arguments.
+                        1-click, context-aware agents working in background—no need to type queries or interrupt your flow.
                         </p>
                       </div>
                     </div>
