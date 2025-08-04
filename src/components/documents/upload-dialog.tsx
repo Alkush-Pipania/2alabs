@@ -21,6 +21,7 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
   const [file, setFile] = React.useState<File | null>(null);
   const [isUploading, setIsUploading] = React.useState(false);
   const [dragActive, setDragActive] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
   
   const dispatch = useDispatch<AppDispatch>();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -99,31 +100,42 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
     // Close dialog immediately
     onOpenChange(false);
 
-    const uploadPromise = (async () => {
+    const uploadPromise = new Promise<void>(async (resolve, reject) => {
       setIsUploading(true);
+      setError(null);
+
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("title", title.trim());
-      formData.append("description", description.trim());
+      formData.append("title", title);
+      formData.append("description", description);
 
-      const response = await fetch("/api/document/upload", {
-        method: "POST",
-        body: formData,
-      });
+      try {
+        const response = await fetch("/api/document/upload", {
+          method: "POST",
+          body: formData,
+        });
 
-      if (response.ok) {
-        dispatch(fetchDocuments());
-        return "Document uploaded successfully";
+        const data = await response.json();
+        if (!data.success) {
+          reject(data.error || "Upload failed");
+          return;
+        }
+        resolve();
+      } catch (err) {
+        reject(err instanceof Error ? err.message : "Upload failed");
       }
-      const errorData = await response.json();
-      throw new Error(errorData?.message || "Upload failed");
-    })();
+    });
 
     toast.promise(uploadPromise, {
-      loading: "Uploading document...",
-      success: (msg: string | unknown) => msg as string,
-      error: (err: unknown) => (err as Error).message || "Failed to upload document",
+      loading: `Uploading "${title}"...`,
+      success: () => {
+        dispatch(fetchDocuments());
+        return `Document "${title}" uploaded successfully!`;
+      },
+      error: (err) => `Upload failed: ${err}`,
     });
+
+    uploadPromise.finally(() => setIsUploading(false));
   };
 
   const formatFileSize = (bytes: number): string => {
@@ -270,6 +282,7 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
             <Button
               type="submit"
               disabled={!file || !title.trim() || isUploading}
+              className="cursor-pointer"
             >
               {isUploading ? (
                 <>

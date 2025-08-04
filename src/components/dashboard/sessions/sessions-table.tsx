@@ -25,7 +25,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { formatDate, cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MoreHorizontal, Share, Trash2, Eye } from "lucide-react";
+import { MoreHorizontal, Share, Trash2, Eye, X } from "lucide-react";
 import { useResponsive } from "@/hooks/use-responsive";
 import { MobileSessionCard } from "./mobile-session-card";
 
@@ -78,7 +78,7 @@ function SessionActions({ session }: { session: any }) {
   };
 
   const handleView = () => {
-    window.location.href = `/dashboard/sessions/${session.id}`;
+    window.location.href = `/sessions/${session.id}`;
   };
 
   const handleDelete = async () => {
@@ -113,7 +113,11 @@ function SessionActions({ session }: { session: any }) {
         
         <DropdownMenuItem onClick={handleView} className="cursor-pointer">
           <Eye className="mr-2 h-4 w-4" />
-          View Details
+          open session
+        </DropdownMenuItem>
+        <DropdownMenuItem  className="cursor-pointer">
+          <X className="mr-2 h-4 w-4" />
+          close session
         </DropdownMenuItem>
         
         <DropdownMenuItem onClick={handleShare} className="cursor-pointer">
@@ -289,9 +293,6 @@ export function SessionsTable() {
                 <TableCell className="font-medium">
                   <div className="flex flex-col">
                     <span className="font-semibold">{session.name}</span>
-                    <span className="text-xs text-muted-foreground font-mono">
-                      {session.id.slice(0, 8)}...
-                    </span>
                   </div>
                 </TableCell>
                 <TableCell>

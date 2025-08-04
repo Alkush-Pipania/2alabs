@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchAppSessions, fetchAppSessionById, refreshAppSessions } from '../thunk/sessionthunk';
+import { fetchAppSessions, fetchAppSessionById, refreshAppSessions, createSession } from '../thunk/sessionthunk';
 
 interface Document{
     id : string,
@@ -97,6 +97,20 @@ const AppSessionslice = createSlice({
             .addCase(refreshAppSessions.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || 'Failed to refresh app sessions';
+            })
+            // Create App Session
+            .addCase(createSession.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(createSession.fulfilled, (state, action) => {
+                state.loading = false;
+                state.AppSessions.unshift(action.payload); // Add new session to the beginning
+                state.error = null;
+            })
+            .addCase(createSession.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || 'Failed to create session';
             });
     }
 });

@@ -1,7 +1,5 @@
-import React from 'react'
+import { TemplatesGrid } from '@/components/templates';
 
-export default function page() {
-  return (
-        <div>page</div>
-    )
+export default function TemplatesPage() {
+  return <TemplatesGrid />;
 }

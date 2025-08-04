@@ -1,6 +1,7 @@
 import React from 'react'
 import { SessionsTable } from '@/components/dashboard/sessions/sessions-table'
 import { LiquidButton } from '@/components/liquid-glass-button'
+import CreateSessionDialog from '@/components/dashboard/sessions/create-dialog-box'
 
 export default function DashboardPage() {
   return (
@@ -15,10 +16,11 @@ export default function DashboardPage() {
               View and manage your application sessions
             </p>
           </div>
-          <LiquidButton className="">
-          Create Session
-         </LiquidButton> 
-          
+          <CreateSessionDialog>
+            <LiquidButton>
+              Create Session
+            </LiquidButton>
+          </CreateSessionDialog>
         </div>
         
         {/* Sessions Table */}

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { apiGet } from '@/server/serverAction';
+import { apiGet, apiPost } from '@/server/serverAction';
 import { API_ENDPOINTS } from '@/server/endpoint';
 
 // Types for the session data
@@ -111,6 +111,51 @@ export const refreshAppSessions = createAsyncThunk<
             }
             
             return response.data?.data || [];
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+            return rejectWithValue(errorMessage);
+        }
+    }
+);
+
+// Create session payload interface
+interface CreateSessionPayload {
+    name: string;
+    description?: string;
+    documentIds?: string[];
+    templateId?: string;
+}
+
+interface CreateSessionResponse {
+    success: boolean;
+    data: AppSession;
+    message?: string;
+    error?: string;
+}
+
+/**
+ * Async thunk to create a new app session
+ */
+export const createSession = createAsyncThunk<
+    AppSession,
+    CreateSessionPayload,
+    {
+        rejectValue: string;
+    }
+>(
+    'appSessions/createSession',
+    async (payload, { rejectWithValue }) => {
+        try {
+            const response = await apiPost<CreateSessionResponse>(
+                '/api/session/create',
+                { body: payload }
+            );
+            
+            if (!response.success) {
+                return rejectWithValue(response.error || 'Failed to create session');
+            }
+            
+            return response.data!.data;
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
             return rejectWithValue(errorMessage);

@@ -72,7 +72,7 @@ export function DataTable({ data, isLoading = false, onRefresh }: DataTableProps
           )}
         </div>
         <div className="flex items-center space-x-2">
-          <Button onClick={() => setUploadDialogOpen(true)}>
+          <Button className="cursor-pointer" onClick={() => setUploadDialogOpen(true)}>
             <Upload className="mr-2 h-4 w-4" />
             Upload Document
           </Button>

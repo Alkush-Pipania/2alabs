@@ -3,6 +3,8 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { NextRequest } from "next/server";
 
+
+
 export async function POST(request: NextRequest) {
     try {
         // Check authentication
@@ -124,7 +126,8 @@ export async function POST(request: NextRequest) {
         const document = await prisma.document.create({
             data: {
                 userId,
-                fileUrl,
+                fileUrl, // have to update it with website url
+                awsFileUrl:fileUrl,
                 fileName: file.name,
                 title: title.trim(),
                 description: description?.trim() || null,
@@ -133,6 +136,29 @@ export async function POST(request: NextRequest) {
                 isEmbedded: false, // Will be processed later
             },
         });
+
+        // Trigger embeddings generation in backend
+        const backendUrl = process.env.BACKEND_URL;
+            try {
+                const embedRes = await fetch(`${backendUrl}/add_embeddings`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-backend-secret': process.env.BACKEND_SECRET ?? '',
+                    },
+                    body: JSON.stringify({ fileUrl, userId }),
+                });
+
+                if (!embedRes.ok) {
+                    console.error('Failed to trigger embeddings:', await embedRes.text());
+                }
+            } catch (err) {
+                console.error('Error calling backend /add_embeddings:', err);
+            }
+            await prisma.document.update({
+                where: { id: document.id },
+                data: { isEmbedded: true },
+            });
 
         return Response.json({
             success: true,

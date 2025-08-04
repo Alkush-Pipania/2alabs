@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchDocuments } from '../thunk/documentsthunk';
+import { fetchDocuments, deleteDocument } from '../thunk/documentsthunk';
 import type { Document } from '../thunk/documentsthunk';
 
 interface DocumentState {
@@ -42,6 +42,17 @@ const documentSlice = createSlice({
             .addCase(fetchDocuments.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || 'Failed to fetch documents';
+            })
+            .addCase(deleteDocument.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(deleteDocument.fulfilled, (state, action) => {
+                state.loading = false;
+                state.documents = state.documents.filter(doc => doc.id !== action.payload);
+            })
+            .addCase(deleteDocument.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || 'Failed to delete document';
             });
     },
 });

@@ -11,6 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, ExternalLink, Download, Trash2 } from "lucide-react";
+import { DeleteDocumentDialog } from "./delete-dialog";
+import { useState } from "react";
 import { Document } from "@/store/thunk/documentsthunk";
 
 // Format file size
@@ -78,45 +80,58 @@ export const StatusCell = ({ isEmbedded }: { isEmbedded: boolean }) => {
 
 // Component for rendering actions
 export const ActionsCell = ({ document }: { document: Document }) => {
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem
-          onClick={() => navigator.clipboard.writeText(document.id)}
-        >
-          Copy document ID
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => window.open(document.fileUrl, "_blank")}
-        >
-          <ExternalLink className="mr-2 h-4 w-4" />
-          View document
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => {
-            const link = window.document.createElement("a");
-            link.href = document.fileUrl;
-            link.download = document.fileName || "document";
-            link.click();
-          }}
-        >
-          <Download className="mr-2 h-4 w-4" />
-          Download
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-destructive">
-          <Trash2 className="mr-2 h-4 w-4" />
-          Delete document
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem
+            onClick={() => navigator.clipboard.writeText(document.id)}
+          >
+            Copy document ID
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => window.open(document.fileUrl, "_blank")}
+          >
+            <ExternalLink className="mr-2 h-4 w-4" />
+            View document
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              const link = window.document.createElement("a");
+              link.href = document.fileUrl;
+              link.download = document.fileName || "document";
+              link.click();
+            }}
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Download
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className="text-destructive cursor-pointer"
+            onClick={() => setDeleteOpen(true)}
+          >
+            <Trash2 className="mr-2 h-4 w-4" />
+            Delete document
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DeleteDocumentDialog
+        open={deleteOpen}
+        onOpenChange={setDeleteOpen}
+        documentId={document.id}
+        documentName={document.title || document.fileName || undefined}
+      />
+    </>
   );
 };

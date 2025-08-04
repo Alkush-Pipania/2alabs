@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { apiGet } from '@/server/serverAction';
+import { apiGet, apiRequest } from '@/server/serverAction';
 import { API_ENDPOINTS } from '@/server/endpoint';
 
 // Document interface matching the API response
@@ -21,6 +21,40 @@ interface GetDocumentsResponse {
     message?: string;
     error?: string;
 }
+
+interface DeleteDocumentResponse {
+    success: boolean;
+    message?: string;
+    error?: string;
+}
+
+/**
+ * Async thunk to delete a document by id
+ */
+export const deleteDocument = createAsyncThunk<
+    string, // returns deleted document id
+    string, // document id as arg
+    { rejectValue: string }
+>(
+    'documents/deleteDocument',
+    async (documentId, { rejectWithValue }) => {
+        try {
+            const response = await apiRequest<DeleteDocumentResponse>(API_ENDPOINTS.DELETE_DOCUMENT, {
+                method: 'DELETE',
+                body: { documentId },
+            });
+
+            if (!response.success) {
+                return rejectWithValue(response.error || 'Failed to delete document');
+            }
+
+            return documentId;
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Unknown error occurred';
+            return rejectWithValue(message);
+        }
+    },
+);
 
 /**
  * Async thunk to fetch all documents for the current user
