@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react"
 import type React from "react"
 import { MeshGradient } from "@paper-design/shaders-react"
+import { Github } from "lucide-react"
 import clsx from "clsx"
 
 type State = "idle" | "loading" | "success" | "error"
@@ -72,32 +73,23 @@ export default function Home() {
   const inputDisabled = state === "loading"
 
   return (
-    <html lang="en" className="dark">
-      <head>
-        <title>AI That Connects People</title>
-        <meta
-          name="description"
-          content="Experience the future of human connection with our multi-agent AI architecture"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-      </head>
-      <body className="antialiased max-w-screen min-h-svh bg-slate-1 text-slate-12">
-        {/* Background Gradient */}
-        <MeshGradient
-          colors={["#001c80", "#1ac7ff", "#04ffb1", "#ff1ff1"]}
-          speed={0.25}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            zIndex: 0,
-            width: "100%",
-            height: "100%",
-          }}
-        />
+    <div className="antialiased max-w-screen min-h-svh bg-slate-1 text-slate-12">
+      {/* Background Gradient */}
+      <MeshGradient
+        colors={["#001c80", "#1ac7ff", "#04ffb1", "#ff1ff1"]}
+        speed={0.25}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          zIndex: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
 
-        {/* Main Content */}
-        <div className="max-w-screen-sm mx-auto w-full relative z-[1] flex flex-col min-h-screen">
+      {/* Main Content */}
+      <div className="max-w-screen-sm mx-auto w-full relative z-[1] flex flex-col min-h-screen">
           <div className="px-5 gap-8 flex flex-col flex-1 py-[12vh]">
             <main className="flex justify-center">
               <div
@@ -108,7 +100,19 @@ export default function Home() {
               >
                 <div className="flex flex-col items-center gap-4 flex-1 text-center w-full p-8">
                   <div className="flex flex-col gap-10">
-                    <h2 className="text-black text-4xl font-KeplerStd">2ALabs</h2>
+                    <div className="flex  justify-center items-center gap-4">
+                      <h2 className="text-black text-2xl font-KeplerStd">2ALabs</h2>
+                      <a
+                        href="https://github.com/Alkush-Pipania/2alabs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center bg-black p-2 bg-gray-12/10 hover:bg-gray-12/20 text-gray-12 rounded-full transition-all duration-200 hover:scale-105 active:scale-95"
+                        aria-label="View 2ALabs on GitHub"
+                      >
+                        <Github className="w-4 h-4" />
+                        
+                      </a>
+                    </div>
                     {/* Heading */}
                     <div className="space-y-1">
                       <h1 className="text-2xl sm:text-3xl font-medium text-slate-12 whitespace-pre-wrap text-pretty">
@@ -180,8 +184,7 @@ export default function Home() {
               </div>
             </main>
           </div>
-        </div>
-      </body>
-    </html>
+      </div>
+    </div>
   )
 }
