@@ -16,7 +16,7 @@ interface AIResponse {
   isComplete: boolean;
 }
 
-interface ChatMessage {
+export interface ChatMessage {
   id: string;  // Add unique identifier for each message
   user?: string;
   other?: string;

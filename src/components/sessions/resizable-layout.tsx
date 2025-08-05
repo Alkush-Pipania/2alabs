@@ -54,9 +54,9 @@ export default function ResizableLayout({ children, className }: ResizableLayout
   const middleWidth = 100 - leftWidth - rightWidth
 
   return (
-    <div ref={containerRef} className={cn("flex h-full relative", className)}>
+    <div ref={containerRef} className={cn("flex h-full w-full relative", className)}>
       {/* Left Panel */}
-      <div className="flex flex-col min-w-0" style={{ width: `${leftWidth}%` }}>
+      <div className="flex flex-col min-w-0 " style={{ width: `${leftWidth}%` }}>
         {children[0]}
       </div>
 
